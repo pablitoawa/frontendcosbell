@@ -1,0 +1,49 @@
+body {
+  background-color: #F8F4EC; /* Un beige muy claro como fondo general */
+}
+
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #FFFFFF; /* Fondo blanco para las tarjetas */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  padding: 25px;
+  text-align: center;
+}
+
+.card-title {
+  color: #6C5B7B; /* Un violeta suave para los títulos */
+  font-size: 1.6em;
+  margin-bottom: 15px;
+}
+
+.card-text {
+  color: #8C7B9B; /* Un gris-violeta para el texto */
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+.alert-info {
+  background-color: #D4E6F1; /* Azul pastel para la alerta */
+  color: #34495E; /* Un azul oscuro para el texto de la alerta */
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 1.2em;
+}
+
+h2 {
+  color: #6C5B7B; /* Mismo violeta suave para el título principal */
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}

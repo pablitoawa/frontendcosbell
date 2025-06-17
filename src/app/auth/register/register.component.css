@@ -1,0 +1,29 @@
+/* Aplica a los inputs que tengan ambas clases: form-control y input-field */
+/*input.form-control.input-field {
+  min-width: 150px !important;
+  max-width: 500px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}*/
+.login{
+  color: #fff;
+}
+.login a{
+  color: #d39e00;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.flashbang-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white; /* Color blanco para el efecto flash */
+  z-index: 9999; /* Asegura que esté por encima de todo lo demás */
+  opacity: 1; /* Completamente visible */
+  transition: opacity 0.1s ease-out; /* Transición rápida para el efecto */
+  pointer-events: none; /* Permite hacer clic a través de él cuando no está activo */
+}
+

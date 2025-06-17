@@ -1,0 +1,48 @@
+<!-- <form [formGroup]="formCita" (ngSubmit)="agendarCita()">
+  <select formControlName="servicioId">
+    <option *ngFor="let servicio of servicios" [value]="servicio.id">{{ servicio.nombre }}</option>
+  </select>
+  <input type="date" formControlName="fecha">
+  <input type="time" formControlName="hora">
+  <input type="email" formControlName="email" placeholder="Tu correo">
+  <button type="submit">Agendar</button>
+</form>
+<div *ngIf="mensaje">{{ mensaje }}</div> -->
+
+<h2>Agendar Cita</h2>
+<form [formGroup]="formCita" (ngSubmit)="agendarCita()">
+  <label for="servicio">Servicio:</label>
+  <select id="servicio" formControlName="servicioId" required>
+    <option value="">Seleccione un servicio...</option>
+    <option *ngFor="let servicio of servicios" [value]="servicio.id">{{ servicio.name }}</option>
+  </select>
+  <div *ngIf="formCita.get('servicioId')?.touched && formCita.get('servicioId')?.invalid" style="color:red;">
+    Selecciona un servicio.
+  </div>
+
+  <label for="fecha">Fecha:</label>
+  <input id="fecha" type="date" formControlName="fecha" required>
+  <div *ngIf="formCita.get('fecha')?.touched && formCita.get('fecha')?.invalid" style="color:red;">
+    <span *ngIf="formCita.get('fecha')?.errors?.required">Selecciona una fecha.</span>
+    <span *ngIf="formCita.get('fecha')?.errors?.dateInPast">La fecha no puede ser pasada.</span>
+  </div>
+
+  <label for="hora">Hora:</label>
+  <select id="hora" formControlName="hora" required>
+    <option value="" disabled>Seleccione una hora...</option>
+    <option *ngFor="let hora of availableTimes" [value]="hora">{{ hora }}</option>
+  </select>
+  <div *ngIf="formCita.get('hora')?.touched && formCita.get('hora')?.invalid" style="color:red;">
+    Selecciona una hora.
+  </div>
+
+  <label for="email">Correo:</label>
+  <input id="email" type="email" formControlName="email" placeholder="Tu correo" required>
+  <div *ngIf="formCita.get('email')?.touched && formCita.get('email')?.invalid" style="color:red;">
+    Ingresa un correo válido.
+  </div>
+
+  <button type="submit" [disabled]="formCita.invalid">Agendar</button>
+</form>
+
+<div *ngIf="mensaje" style="margin-top:10px;">{{ mensaje }}</div>
