@@ -1,29 +1,24 @@
-<div *ngIf="mensaje" class="alert alert-info">{{ mensaje }}</div>
+<div class="mis-citas-container">
+  <h2>Mis Citas</h2>
 
-<button class="btn btn-secondary mb-3" (click)="goToDashboardClient()">Volver al Dashboard</button>
+  <div *ngIf="mensaje" class="alert alert-info">{{ mensaje }}</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Servicio</th>
-      <th>Fecha</th>
-      <th>Hora</th>
-      <th>Estado</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let cita of citas">
-      <td>{{ cita.servicio.name }}</td>
-      <td>{{ cita.fecha }}</td>
-      <td>{{ cita.hora }}</td>
-      <td>{{ cita.status }}</td>
-      <td>
-        <!-- Botón para cancelar -->
-        <button class="btn btn-danger btn-sm" (click)="cancelarCita(cita.id)" [disabled]="cita.status === 'CANCELADA'">Cancelar</button>
-        <!-- Aquí puedes agregar botón para modificar -->
-        <button class="btn btn-warning btn-sm ms-2" (click)="editarCita(cita.id)" [disabled]="cita.status === 'CANCELADA'">Modificar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <button class="cosbell-button-secondary mb-3" (click)="goToDashboardClient()">Volver al Dashboard</button>
+
+  <div *ngIf="citas.length === 0" class="text-center mt-4">
+    <p>No tienes citas agendadas.</p>
+  </div>
+
+  <div *ngFor="let cita of citas" class="cita-card">
+    <div class="cita-details">
+      <h3>Servicio: {{ cita.servicio.name }}</h3>
+      <p><strong>Fecha:</strong> {{ cita.fecha }}</p>
+      <p><strong>Hora:</strong> {{ cita.hora }}</p>
+      <p><strong>Estado:</strong> {{ cita.status }}</p>
+    </div>
+    <div class="cita-actions">
+      <button class="cosbell-button-primary" (click)="cancelarCita(cita.id)" [disabled]="cita.status === 'CANCELADA'">Cancelar</button>
+      <button class="cosbell-button-secondary" (click)="editarCita(cita.id)" [disabled]="cita.status === 'CANCELADA'">Modificar</button>
+    </div>
+  </div>
+</div>

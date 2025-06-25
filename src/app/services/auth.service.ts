@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 const API_URL = 'http://localhost:8081/api/auth';
@@ -11,22 +11,36 @@ interface AuthResponse {
   userId: number;
   email: string;
   message: string;
+  name?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this._isLoggedIn.asObservable();
+
+  constructor(private http: HttpClient) {
+    this._isLoggedIn.next(this.hasToken());
+  }
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
 
   register(data: any): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${API_URL}/register`, data).pipe(
       tap(res => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('role', res.role);
-          localStorage.setItem('userId', res.userId.toString());
-        }
+        // Eliminamos el inicio de sesión automático después del registro.
+        // El usuario deberá iniciar sesión por separado.
+        // if (res.token) {
+        //   localStorage.setItem('token', res.token);
+        //   localStorage.setItem('role', res.role);
+        //   localStorage.setItem('userId', res.userId.toString());
+        //   localStorage.setItem('name', res.name || '');
+        //   this._isLoggedIn.next(true);
+        // }
       })
     );
   }
@@ -38,13 +52,15 @@ export class AuthService {
           localStorage.setItem('token', res.token);
           localStorage.setItem('role', res.role);
           localStorage.setItem('userId', res.userId.toString());
+          localStorage.setItem('name', res.name || '');
+          this._isLoggedIn.next(true);
         }
       })
     );
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return this._isLoggedIn.value;
   }
 
   getRole(): string | null {
@@ -54,6 +70,18 @@ export class AuthService {
   getUserId(): number | null {
     const userId = localStorage.getItem('userId');
     return userId ? parseInt(userId, 10) : null;
+  }
+
+  getName(): string | null {
+    return localStorage.getItem('name');
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('name');
+    this._isLoggedIn.next(false);
   }
 }
 

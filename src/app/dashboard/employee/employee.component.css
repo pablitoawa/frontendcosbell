@@ -1,0 +1,40 @@
+.employee-dashboard {
+    padding: 20px;
+    background-color: var(--cosbell-light-pink); /* Usando el color rosa claro de Cosbell */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.employee-dashboard h2 {
+    color: var(--cosbell-dark-purple); /* Usando el púrpura oscuro de Cosbell para los títulos */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cosbell-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--cosbell-light-pink);
+}
+
+.cosbell-card h3 {
+    color: var(--cosbell-pink);
+    margin-bottom: 15px;
+}
+
+.cosbell-button {
+    background-color: var(--cosbell-btn-yellow);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cosbell-button:hover {
+    background-color: #c08c00; /* Un tono un poco más oscuro al pasar el ratón */
+}

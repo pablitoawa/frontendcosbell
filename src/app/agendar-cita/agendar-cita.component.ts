@@ -3,10 +3,11 @@ import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl, Validato
 import { ServicioService } from '../services/servicio.service';
 import { CitaService } from '../services/cita.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-agendar-cita',
@@ -19,6 +20,7 @@ export class AgendarCitaComponent implements OnInit {
 
   formCita: any;
   servicios: any[] = [];
+  employees: any[] = [];
   mensaje: string = '';
   availableTimes: string[] = [];
   private unsubscribe$ = new Subject<void>();
@@ -45,13 +47,17 @@ export class AgendarCitaComponent implements OnInit {
     private servicioService: ServicioService,
     private citaService: CitaService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
   ) {
     this.formCita = this.fb.group({
       servicioId: ['', Validators.required],
       fecha: ['', [Validators.required, this.dateNotPastValidator()]],
       hora: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      employeeId: ['', Validators.required]
     });
   }
 
@@ -69,7 +75,8 @@ export class AgendarCitaComponent implements OnInit {
       }
     });
 
-    this.servicioService.getServicios().subscribe(data => this.servicios = data);
+    this.servicioService.getServicios().subscribe((data: any[]) => this.servicios = data);
+    this.userService.getEmployees().subscribe((data: any[]) => this.employees = data);
 
     this.formCita.get('servicioId').valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(() => this.updateAvailableTimes());
     this.formCita.get('fecha').valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe(() => this.updateAvailableTimes());
@@ -82,7 +89,9 @@ export class AgendarCitaComponent implements OnInit {
           servicioId: cita.servicio.id,
           fecha: cita.fecha,
           hora: cita.hora,
-          email: cita.email
+          email: cita.email,
+          phone: cita.phone,
+          employeeId: cita.employee.id
         });
         this.updateAvailableTimes();
       },
@@ -140,7 +149,9 @@ export class AgendarCitaComponent implements OnInit {
       userId: this.authService.getUserId(),
       fecha: formValue.fecha as string,
       hora: formValue.hora as string,
-      email: formValue.email as string
+      email: formValue.email as string,
+      phone: formValue.phone as string,
+      employeeId: Number(formValue.employeeId)
     };
 
     if (data.userId === null) {
@@ -156,7 +167,9 @@ export class AgendarCitaComponent implements OnInit {
         userId: data.userId!,
         fecha: data.fecha,
         hora: data.hora,
-        email: data.email
+        email: data.email,
+        phone: data.phone,
+        employeeId: data.employeeId
       }).subscribe({
         next: (res: any) => {
           this.mensaje = 'Cita modificada correctamente';
@@ -169,7 +182,9 @@ export class AgendarCitaComponent implements OnInit {
         userId: data.userId!,
         fecha: data.fecha,
         hora: data.hora,
-        email: data.email
+        email: data.email,
+        phone: data.phone,
+        employeeId: data.employeeId
       }).subscribe({
         next: (res: any) => {
         this.mensaje = 'Cita agendada correctamente';
@@ -178,5 +193,9 @@ export class AgendarCitaComponent implements OnInit {
         error: (err: any) => this.mensaje = err.error?.message || 'Error al agendar'
     });
     }
+  }
+
+  goToDashboardClient() {
+    this.router.navigate(['/dashboard-client']);
   }
 }

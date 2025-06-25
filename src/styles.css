@@ -6,6 +6,18 @@
 
 /*@import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css');*/
 @import url('../node_modules/simple-keyboard/build/css/index.css');
+
+/* Variables de color de Cosbell */
+:root {
+    --cosbell-dark-purple: #4A154B;
+    --cosbell-pink: #DD5E8A;
+    --cosbell-light-pink: #F1DDE2;
+    --cosbell-gold: #D4AF37;
+    --cosbell-gradient-start: #1B023E;
+    --cosbell-gradient-end: #DD5E8A;
+    --cosbell-btn-yellow: #D39E00;
+}
+
 .auth-card {
   background: #cb8591; /* fallback for old browsers */
   background: -webkit-linear-gradient(

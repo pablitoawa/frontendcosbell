@@ -1,1 +1,57 @@
-<h2>Bienvenido Trabajador</h2>
+<div class="employee-dashboard">
+    <h2>Bienvenido Trabajador</h2>
+</div>
+
+<div class="employee-dashboard-container">
+  <h2>Mis Citas (Empleado)</h2>
+
+  <div class="filters-section">
+    <h3>Filtros</h3>
+    <div class="filter-controls">
+      <div class="filter-group">
+        <label for="filterDate">Fecha:</label>
+        <input type="date" id="filterDate" [ngModel]="filters.fecha" (ngModelChange)="onDateChange($event)">
+      </div>
+      <div class="filter-group">
+        <label for="filterService">Servicio:</label>
+        <select id="filterService" [ngModel]="filters.servicioId" (ngModelChange)="onServiceChange($event)">
+          <option [ngValue]="undefined">Todos</option>
+          <option *ngFor="let service of services" [ngValue]="service.id">{{ service.name }}</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filterUser">ID Cliente:</label>
+        <input type="number" id="filterUser" [ngModel]="filters.userId" (ngModelChange)="onClientChange($event)" placeholder="ID de Usuario">
+      </div>
+    </div>
+    <div class="filter-actions">
+      <button (click)="applyFilters()">Aplicar Filtros</button>
+      <button (click)="clearFilters()">Limpiar Filtros</button>
+    </div>
+  </div>
+
+  <div class="appointments-list">
+    <h3>Citas Asignadas</h3>
+    <p *ngIf="appointments.length === 0">No tienes citas asignadas para mostrar con los filtros actuales.</p>
+    <table *ngIf="appointments.length > 0">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Cliente (Email)</th>
+          <th>Servicio</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appointment of appointments">
+          <td>{{ appointment.fecha | date:'yyyy-MM-dd' }}</td>
+          <td>{{ appointment.hora }}</td>
+          <td>{{ appointment.email }}</td>
+          <td>{{ appointment.servicio?.name }}</td>
+          <td>{{ appointment.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
